@@ -1,0 +1,15 @@
+.DS_Store
+
+coverage
+node_modules
+
+lib/
+test/
+.eslintrc
+circle.yml
+karma.conf.ci.js
+karma.conf.js
+Makefile
+rollupfile.js
+
+rollup-plugin-visualizer.html
