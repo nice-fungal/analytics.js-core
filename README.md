@@ -1,14 +1,5 @@
-# analytics.js-core [![Build Status][ci-badge]][ci-link]
+[@segmentio/analytics.js-core](https://github.com/segmentio/analytics.js-core)
 
-This is the core of [Analytics.js][], the open-source library that powers data collection at [Segment](https://segment.com).
+This project follows the `package.json/version` convention. But will not be published to `npmjs.org`.
 
-To build this into a full, usable library, see the [Analytics.js](https://github.com/segmentio/analytics.js) repository.
-
-## License
-
-Released under the [MIT license](License.md).
-
-
-[analytics.js]: https://segment.com/docs/libraries/analytics.js/
-[ci-link]: https://circleci.com/gh/segmentio/analytics.js-core
-[ci-badge]: https://circleci.com/gh/segmentio/analytics.js-core.svg?style=svg
+See [@lattebank/h5-analytics](https://github.com/lattebank/h5-analytics) for a production ready solution.
