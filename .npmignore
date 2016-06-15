@@ -13,3 +13,7 @@ steps.d.ts
 karma.*
 Makefile
 tsconfig.json
+
+.DS_Store
+rollupfile.js
+rollup-plugin-visualizer.html
