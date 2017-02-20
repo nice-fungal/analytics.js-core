@@ -27,7 +27,7 @@ module.exports = normalize;
  * Toplevel properties.
  */
 
-var toplevel = ['integrations', 'anonymousId', 'timestamp', 'context'];
+var toplevel = ['integrations', 'anonymousId', "eventId", 'timestamp', 'context'];
 
 /**
  * Normalize `msg` based on integrations `list`.
