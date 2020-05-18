@@ -7,8 +7,8 @@ import includes from 'lodash.includes'
 
 // var debug = require('debug')('analytics.js:normalize');
 var type = require('component-type');
-var uuid = require('uuid/v4');
-var md5 = require('spark-md5').hash;
+// var uuid = require('uuid/v4');
+// var md5 = require('spark-md5').hash;
 
 
 /**
@@ -82,7 +82,7 @@ function normalize(msg: Message, list: Array<any>): NormalizedMessage {
   }, opts);
 
   // generate and attach a messageId to msg
-  msg.messageId = 'ajs-' + md5(window.JSON.stringify(msg) + uuid());
+  // msg.messageId = 'ajs-' + md5(window.JSON.stringify(msg) + uuid());
 
   // cleanup
   delete msg.options;
