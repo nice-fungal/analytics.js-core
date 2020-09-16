@@ -8,6 +8,8 @@ import {
   SegmentIntegration
 } from './types';
 
+import pick from 'lodash.pick'
+
 var _analytics = global.analytics;
 
 /*
@@ -42,7 +44,6 @@ var nextTick = require('next-tick');
 var normalize = require('./normalize');
 var on = require('component-event').bind;
 var pageDefaults = require('./pageDefaults');
-var pick = require('@ndhoule/pick');
 var prevent = require('@segment/prevent-default');
 var url = require('component-url');
 var store = require('./store');
@@ -600,20 +601,20 @@ Analytics.prototype.page = function(
 
   // Ensure properties has baseline spec properties.
   // TODO: Eventually move these entirely to `options.context.page`
-  var defs = pageDefaults();
+  const defs = pageDefaults();
   defaults(properties, defs);
 
   // Mirror user overrides to `options.context.page` (but exclude custom properties)
   // (Any page defaults get applied in `this.normalize` for consistency.)
   // Weird, yeah--moving special props to `context.page` will fix this in the long term.
-  var overrides = pick(Object.keys(defs), properties);
+  const overrides = pick(properties, Object.keys(defs));
   if (!is.empty(overrides)) {
     options = options || {};
     options.context = options.context || {};
     options.context.page = overrides;
   }
 
-  var msg = this.normalize({
+  const msg = this.normalize({
     properties: properties,
     category: category,
     options: options,
