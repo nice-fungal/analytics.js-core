@@ -9,6 +9,8 @@ import {
   PageDefaults, Message
 } from './types';
 
+import { pageDefaults } from './pageDefaults';
+
 import pick from 'lodash.pick'
 
 var _analytics = global.analytics;
@@ -44,7 +46,6 @@ var memory = require('./memory');
 var nextTick = require('next-tick');
 var normalize = require('./normalize');
 var on = require('component-event').bind;
-var pageDefaults = require('./pageDefaults');
 var prevent = require('@segment/prevent-default');
 var url = require('component-url');
 var store = require('./store');
