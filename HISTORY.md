@@ -10,6 +10,10 @@
 
 - Fix Potential DOM-based XSS via prototype pollution
 
+# 4.1.5 / 2020-09-20
+
+- Remove `@segment/canonical` in favor of `document.querySelector`
+
 # 4.1.5 / 2020-09-17
 
 - Replace @ndhoule/defaults with merging via ES6 spread syntax
