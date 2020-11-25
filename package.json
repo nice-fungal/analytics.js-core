@@ -136,6 +136,7 @@
     "lodash": "4.17.20",
     "node-fetch": "2.6.1",
     "elliptic": "^6.5.4",
+    "trim": "^1.0.0",
     "component-cookie/debug": "2.6.9"
   }
 }
