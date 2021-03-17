@@ -6,12 +6,13 @@ import {
   SegmentAnalytics,
   SegmentOpts,
   SegmentIntegration,
-  PageDefaults, Message
+  PageDefaults
 } from './types';
 
 import { pageDefaults } from './pageDefaults';
 
 import pick from 'lodash.pick'
+import url from 'component-url'
 
 var _analytics = global.analytics;
 
@@ -69,7 +70,6 @@ function Analytics() {
   this._user = user;
   this.log = debug('analytics.js');
   bindAll(this);
-
 
   const self = this;
   this.on('initialize', function(_, options) {
@@ -960,6 +960,10 @@ Analytics.prototype.reset = function() {
  *
  * @api private
  */
+
+interface QueryStringParams {
+  [key: string]: string | null;
+}
 
 Analytics.prototype._parseQuery = function(query: string): SegmentAnalytics {
   // Parse querystring to an object
