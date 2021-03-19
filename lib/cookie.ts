@@ -9,7 +9,7 @@ import cloneDeep from 'lodash.clonedeep'
 
 var bindAll = require('bind-all');
 var cookie = require('@segment/cookie');
-var debug = require('debug')('analytics.js:cookie');
+// var debug = require('debug')('analytics.js:cookie');
 var topDomain = require('@segment/top-domain');
 
 const MAX_AGE_ONE_YEAR = 31536000000
@@ -57,7 +57,7 @@ Cookie.prototype.options = function(options?: CookieOptions) {
   // like myapp.herokuapp.com or localhost / ip.
   this.set('ajs:test', true);
   if (!this.get('ajs:test')) {
-    debug('fallback to domain=null');
+    // debug('fallback to domain=null');
     this._options.domain = null;
   }
   this.remove('ajs:test');

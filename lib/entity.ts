@@ -9,7 +9,7 @@ import assignIn from 'lodash.assignin'
  */
 
 var cookie = require('./cookie');
-var debug = require('debug')('analytics:entity');
+// var debug = require('debug')('analytics:entity');
 var memory = require('./memory');
 var store = require('./store');
 var isodateTraverse = require('@segment/isodate-traverse');
@@ -53,9 +53,9 @@ Entity.prototype.initialize = function() {
   }
 
   // fallback to memory storage.
-  debug(
-    'warning using memory store both cookies and localStorage are disabled'
-  );
+  // debug(
+  //   'warning using memory store both cookies and localStorage are disabled'
+  // );
   this._storage = memory;
 };
 
@@ -233,7 +233,7 @@ Entity.prototype.identify = function(id?: string, traits?: object) {
     this.id(id);
   }
 
-  this.debug('identify %o, %o', id, traits);
+  // this.debug('identify %o, %o', id, traits);
   this.traits(traits);
   this.save();
 };
