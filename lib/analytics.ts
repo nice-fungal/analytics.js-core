@@ -12,7 +12,7 @@ import {
 import cloneDeep from 'lodash.clonedeep'
 import pick from 'lodash.pick'
 
-var _analytics = global.analytics;
+// var _analytics = global.analytics;
 
 /*
  * Module dependencies.
@@ -34,7 +34,7 @@ var bindAll = require('bind-all');
 var extend = require('extend');
 var cookie = require('./cookie');
 var metrics = require('./metrics');
-var debug = require('debug');
+// var debug = require('debug');
 var group = require('./group');
 var is = require('is');
 var isMeta = require('@segment/is-meta');
@@ -62,9 +62,9 @@ function Analytics() {
   this._integrations = {};
   this._readied = false;
   this._timeout = 300;
-  // XXX: BACKWARDS COMPATIBILITY
-  this._user = user;
-  this.log = debug('analytics.js');
+  // // XXX: BACKWARDS COMPATIBILITY
+  // this._user = user;
+  // this.log = debug('analytics.js');
   bindAll(this);
 
 
@@ -192,7 +192,7 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
     const clonedOpts = {};
     extend(true, clonedOpts, opts); // deep clone opts
     const integration = new Integration(clonedOpts);
-    self.log('initialize %o - %o', name, opts);
+    // self.log('initialize %o - %o', name, opts);
     self.add(integration);
   });
 
@@ -243,19 +243,19 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
 
     integration.once('ready', ready);
     try {
-      metrics.increment('analytics_js.integration.invoke', {
-        method: 'initialize',
-        integration_name: integration.name
-      });
+      // metrics.increment('analytics_js.integration.invoke', {
+      //   method: 'initialize',
+      //   integration_name: integration.name
+      // });
       integration.initialize();
     } catch (e) {
       let integrationName = integration.name;
-      metrics.increment('analytics_js.integration.invoke.error', {
-        method: 'initialize',
-        integration_name: integration.name
-      });
+      // metrics.increment('analytics_js.integration.invoke.error', {
+      //   method: 'initialize',
+      //   integration_name: integration.name
+      // });
       self.failedInitializations.push(integrationName);
-      self.log('Error initializing %s integration: %o', integrationName, e);
+      // self.log('Error initializing %s integration: %o', integrationName, e);
       // Mark integration as ready to prevent blocking of anyone listening to analytics.ready()
 
       integration.ready();
@@ -263,7 +263,7 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
   });
 
   // backwards compat with angular plugin and used for init logic checks
-  this.initialized = true;
+  // this.initialized = true;
 
   this.emit('initialize', settings, options);
   return this;
@@ -438,7 +438,7 @@ Analytics.prototype.track = function(
   // plan.
   plan = events[event];
   if (plan) {
-    this.log('plan %o - %o', event, plan);
+    // this.log('plan %o - %o', event, plan);
     if (plan.enabled === false) {
       // Disabled events should always be sent to Segment.
       planIntegrationOptions = { All: false, 'Segment.io': true };
@@ -480,48 +480,48 @@ Analytics.prototype.track = function(
  * @return {Analytics}
  */
 
-Analytics.prototype.trackClick = Analytics.prototype.trackLink = function(
-  links: Element | Array<Element> | JQuery,
-  event: any,
-  properties?: any
-): SegmentAnalytics {
-  let elements: Array<Element> = []
-  if (!links) return this;
-  // always arrays, handles jquery
-  if (links instanceof Element) {
-    elements = [links]
-  } else if ("toArray" in links) {
-    elements = links.toArray()
-  } else {
-    elements = links as Array<Element>
-  }
+// Analytics.prototype.trackClick = Analytics.prototype.trackLink = function(
+//   links: Element | Array<Element> | JQuery,
+//   event: any,
+//   properties?: any
+// ): SegmentAnalytics {
+//   let elements: Array<Element> = []
+//   if (!links) return this;
+//   // always arrays, handles jquery
+//   if (links instanceof Element) {
+//     elements = [links]
+//   } else if ("toArray" in links) {
+//     elements = links.toArray()
+//   } else {
+//     elements = links as Array<Element>
+//   }
 
-  elements.forEach(el => {
-    if (type(el) !== 'element') {
-      throw new TypeError('Must pass HTMLElement to `analytics.trackLink`.');
-    }
-    on(el, 'click', (e) => {
-      const ev = is.fn(event) ? event(el) : event;
-      const props = is.fn(properties) ? properties(el) : properties;
-      const href =
-        el.getAttribute('href') ||
-        el.getAttributeNS('http://www.w3.org/1999/xlink', 'href') ||
-        el.getAttribute('xlink:href');
+//   elements.forEach(el => {
+//     if (type(el) !== 'element') {
+//       throw new TypeError('Must pass HTMLElement to `analytics.trackLink`.');
+//     }
+//     on(el, 'click', (e) => {
+//       const ev = is.fn(event) ? event(el) : event;
+//       const props = is.fn(properties) ? properties(el) : properties;
+//       const href =
+//         el.getAttribute('href') ||
+//         el.getAttributeNS('http://www.w3.org/1999/xlink', 'href') ||
+//         el.getAttribute('xlink:href');
 
-      this.track(ev, props);
+//       this.track(ev, props);
 
-      // @ts-ignore
-      if (href && el.target !== '_blank' && !isMeta(e)) {
-        prevent(e);
-        this._callback(function() {
-          window.location.href = href;
-        });
-      }
-    });
-  });
+//       // @ts-ignore
+//       if (href && el.target !== '_blank' && !isMeta(e)) {
+//         prevent(e);
+//         this._callback(function() {
+//           window.location.href = href;
+//         });
+//       }
+//     });
+//   });
 
-  return this;
-};
+//   return this;
+// };
 
 /**
  * Helper method to track an outbound form that would normally navigate away
@@ -661,12 +661,12 @@ Analytics.prototype.page = function(
  * @api private
  */
 
-Analytics.prototype.pageview = function(url: string): SegmentAnalytics {
-  const properties: { path?: string } = {};
-  if (url) properties.path = url;
-  this.page(properties);
-  return this;
-};
+// Analytics.prototype.pageview = function(url: string): SegmentAnalytics {
+//   const properties: { path?: string } = {};
+//   if (url) properties.path = url;
+//   this.page(properties);
+//   return this;
+// };
 
 /**
  * Merge two previously unassociated user identities.
@@ -741,13 +741,13 @@ Analytics.prototype.timeout = function(timeout: number) {
  * Enable or disable debug.
  */
 
-Analytics.prototype.debug = function(str: string | boolean) {
-  if (!arguments.length || str) {
-    debug.enable('analytics:' + (str || '*'));
-  } else {
-    debug.disable();
-  }
-};
+// Analytics.prototype.debug = function(str: string | boolean) {
+//   if (!arguments.length || str) {
+//     debug.enable('analytics:' + (str || '*'));
+//   } else {
+//     debug.disable();
+//   }
+// };
 
 /**
  * Apply options.
@@ -801,10 +801,10 @@ Analytics.prototype._invoke = function(
       function(result) {
         // A nullified payload should not be sent.
         if (result === null) {
-          self.log(
-            'Payload with method "%s" was null and dropped by source a middleware.',
-            method
-          );
+          // self.log(
+          //   'Payload with method "%s" was null and dropped by source a middleware.',
+          //   method
+          // );
           return;
         }
 
@@ -814,23 +814,23 @@ Analytics.prototype._invoke = function(
         }
 
         self.emit('invoke', result);
-        metrics.increment('analytics_js.invoke', {
-          method: method
-        });
+        // metrics.increment('analytics_js.invoke', {
+        //   method: method
+        // });
 
         applyIntegrationMiddlewares(result);
       }
     );
   } catch (e) {
-    metrics.increment('analytics_js.invoke.error', {
-      method: method
-    });
-    self.log(
-      'Error invoking .%s method of %s integration: %o',
-      method,
-      name,
-      e
-    );
+    // metrics.increment('analytics_js.invoke.error', {
+    //   method: method
+    // });
+    // self.log(
+    //   'Error invoking .%s method of %s integration: %o',
+    //   method,
+    //   name,
+    //   e
+    // );
   }
 
   return this;
@@ -846,11 +846,11 @@ Analytics.prototype._invoke = function(
       // Check if an integration failed to initialize.
       // If so, do not process the message as the integration is in an unstable state.
       if (failedInitializations.indexOf(name) >= 0) {
-        self.log(
-          'Skipping invocation of .%s method of %s integration. Integration failed to initialize properly.',
-          method,
-          name
-        );
+        // self.log(
+        //   'Skipping invocation of .%s method of %s integration. Integration failed to initialize properly.',
+        //   method,
+        //   name
+        // );
       } else {
         try {
           // Apply any integration middlewares that exist, then invoke the integration with the result.
@@ -860,10 +860,10 @@ Analytics.prototype._invoke = function(
             function(result) {
               // A nullified payload should not be sent to an integration.
               if (result === null) {
-                self.log(
-                  'Payload to integration "%s" was null and dropped by a middleware.',
-                  name
-                );
+                // self.log(
+                //   'Payload to integration "%s" was null and dropped by a middleware.',
+                //   name
+                // );
                 return;
               }
 
@@ -881,10 +881,10 @@ Analytics.prototype._invoke = function(
                   function(result) {
                     // A nullified payload should not be sent to an integration.
                     if (result === null) {
-                      self.log(
-                        'Payload to destination "%s" was null and dropped by a middleware.',
-                        name
-                      );
+                      // self.log(
+                      //   'Payload to destination "%s" was null and dropped by a middleware.',
+                      //   name
+                      // );
                       return;
                     }
 
@@ -893,35 +893,35 @@ Analytics.prototype._invoke = function(
                       result = new Facade(result);
                     }
 
-                    metrics.increment('analytics_js.integration.invoke', {
-                      method: method,
-                      integration_name: integration.name
-                    });
+                    // metrics.increment('analytics_js.integration.invoke', {
+                    //   method: method,
+                    //   integration_name: integration.name
+                    // });
 
                     integration.invoke.call(integration, method, result);
                   }
                 );
               } else {
-                metrics.increment('analytics_js.integration.invoke', {
-                  method: method,
-                  integration_name: integration.name
-                });
+                // metrics.increment('analytics_js.integration.invoke', {
+                //   method: method,
+                //   integration_name: integration.name
+                // });
 
                 integration.invoke.call(integration, method, result);
               }
             }
           );
         } catch (e) {
-          metrics.increment('analytics_js.integration.invoke.error', {
-            method: method,
-            integration_name: integration.name
-          });
-          self.log(
-            'Error invoking .%s method of %s integration: %o',
-            method,
-            name,
-            e
-          );
+          // metrics.increment('analytics_js.integration.invoke.error', {
+          //   method: method,
+          //   integration_name: integration.name
+          // });
+          // self.log(
+          //   'Error invoking .%s method of %s integration: %o',
+          //   method,
+          //   name,
+          //   e
+          // );
         }
       }
     });
@@ -1053,10 +1053,10 @@ Analytics.prototype._mergeInitializeAndPlanIntegrations = function(
  * No conflict support.
  */
 
-Analytics.prototype.noConflict = function(): SegmentAnalytics {
-  window.analytics = _analytics;
-  return this;
-};
+// Analytics.prototype.noConflict = function(): SegmentAnalytics {
+//   window.analytics = _analytics;
+//   return this;
+// };
 
 /*
  * Exports.

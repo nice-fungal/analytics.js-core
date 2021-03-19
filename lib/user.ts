@@ -8,7 +8,7 @@ import { InitOptions } from './types';
 var Entity = require('./entity');
 var bindAll = require('bind-all');
 var cookie = require('./cookie');
-var debug = require('debug')('analytics:user');
+// var debug = require('debug')('analytics:user');
 var inherit = require('inherits');
 var rawCookie = require('@segment/cookie');
 var uuid = require('uuid');
@@ -38,7 +38,7 @@ User.defaults = {
   persist: true,
   cookie: {
     key: 'ajs_user_id',
-    oldKey: 'ajs_user'
+    // oldKey: 'ajs_user'
   },
   localStorage: {
     key: 'ajs_user_traits'
@@ -51,7 +51,7 @@ User.defaults = {
 
 function User(options?: InitOptions) {
   this.defaults = User.defaults;
-  this.debug = debug;
+  // this.debug = debug;
   Entity.call(this, options);
 }
 
@@ -136,15 +136,15 @@ User.prototype.anonymousId = function(anonymousId?: string): string | User {
     }
   }
 
-  // old - it is not stringified so we use the raw cookie.
-  anonymousId = rawCookie('_sio');
-  if (anonymousId) {
-    anonymousId = anonymousId.split('----')[0];
-    store.set('ajs_anonymous_id', anonymousId);
-    this._setAnonymousIdInLocalStorage(anonymousId);
-    store.remove('_sio');
-    return anonymousId;
-  }
+  // // old - it is not stringified so we use the raw cookie.
+  // anonymousId = rawCookie('_sio');
+  // if (anonymousId) {
+  //   anonymousId = anonymousId.split('----')[0];
+  //   store.set('ajs_anonymous_id', anonymousId);
+  //   this._setAnonymousIdInLocalStorage(anonymousId);
+  //   store.remove('_sio');
+  //   return anonymousId;
+  // }
 
   // empty
   anonymousId = uuid.v4();
@@ -177,7 +177,7 @@ User.prototype.logout = function() {
  */
 
 User.prototype.load = function() {
-  if (this._loadOldCookie()) return;
+  // if (this._loadOldCookie()) return;
   Entity.prototype.load.call(this);
 };
 
@@ -187,15 +187,15 @@ User.prototype.load = function() {
  * @api private
  */
 
-User.prototype._loadOldCookie = function(): boolean {
-  var user = cookie.get(this._options.cookie.oldKey);
-  if (!user) return false;
+// User.prototype._loadOldCookie = function(): boolean {
+//   var user = cookie.get(this._options.cookie.oldKey);
+//   if (!user) return false;
 
-  this.id(user.id);
-  this.traits(user.traits);
-  cookie.remove(this._options.cookie.oldKey);
-  return true;
-};
+//   this.id(user.id);
+//   this.traits(user.traits);
+//   cookie.remove(this._options.cookie.oldKey);
+//   return true;
+// };
 
 /**
  * Expose the user singleton.

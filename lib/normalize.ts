@@ -5,7 +5,7 @@ import includes from 'lodash.includes'
  * Module Dependencies.
  */
 
-var debug = require('debug')('analytics.js:normalize');
+// var debug = require('debug')('analytics.js:normalize');
 var type = require('component-type');
 var uuid = require('uuid/v4');
 var md5 = require('spark-md5').hash;
@@ -52,7 +52,7 @@ function normalize(msg: Message, list: Array<any>): NormalizedMessage {
     integrations?: { [key: string]: string };
     context?: unknown;
   } = {};
-  debug('<-', msg);
+  // debug('<-', msg);
 
   // integrations.
   Object.keys(opts).forEach(key => {
@@ -93,7 +93,7 @@ function normalize(msg: Message, list: Array<any>): NormalizedMessage {
     ...ret
   }
 
-  debug('->', ret);
+  // debug('->', ret);
   return ret;
 
   function integration(name: string) {
