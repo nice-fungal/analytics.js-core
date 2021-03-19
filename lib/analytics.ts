@@ -35,7 +35,6 @@ var extend = require('extend');
 var cookie = require('./cookie');
 var metrics = require('./metrics');
 var debug = require('debug');
-var defaults = require('@ndhoule/defaults');
 var group = require('./group');
 var is = require('is');
 var isMeta = require('@segment/is-meta');
