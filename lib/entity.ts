@@ -12,7 +12,7 @@ var cookie = require('./cookie');
 // var debug = require('debug')('analytics:entity');
 var memory = require('./memory');
 var store = require('./store');
-var isodateTraverse = require('@segment/isodate-traverse');
+var isodateTraverse = require('@head.js/analytics.js-isodate-traverse');
 
 /**
  * Expose `Entity`

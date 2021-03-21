@@ -9,6 +9,7 @@ import { SegmentAnalytics } from './index.d';
  */
 
 var Analytics = require('./analytics');
+var createIntegration = require('@head.js/analytics.js-integration');
 
 // Create a new `analytics` singleton.
 var analytics: SegmentAnalytics.AnalyticsJS = new Analytics();
@@ -19,6 +20,8 @@ analytics.require = require;
 
 // Expose package version.
 analytics.VERSION = '4.1.5';
+
+analytics.createIntegration = createIntegration;
 
 /*
  * Exports.

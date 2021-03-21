@@ -69,6 +69,8 @@ export declare namespace SegmentAnalytics {
     require: any;
     VERSION: any;
 
+    createIntegration(): any,
+
     /**
      * Use a `plugin`.
      */
