@@ -7,7 +7,7 @@ import { StoreOptions } from './types';
  */
 
 var bindAll = require('bind-all');
-var store = require('@segment/store');
+var store = require('@head.js/analytics.js-store');
 
 /**
  * Initialize a new `Store` with `options`.
