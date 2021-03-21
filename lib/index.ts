@@ -18,7 +18,7 @@ var analytics: SegmentAnalytics.AnalyticsJS = new Analytics();
 analytics.require = require;
 
 // Expose package version.
-analytics.VERSION = require('../package.json').version;
+analytics.VERSION = '4.1.5';
 
 /*
  * Exports.
