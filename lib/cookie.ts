@@ -1,7 +1,7 @@
 'use strict';
 
 import { CookieOptions } from './types';
-import cloneDeep from 'lodash.clonedeep'
+import cloneDeep from 'lodash/clonedeep'
 
 /**
  * Module dependencies.

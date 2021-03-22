@@ -1,8 +1,8 @@
 'use strict';
 
 import { InitOptions } from './types';
-import cloneDeep from 'lodash.clonedeep'
-import assignIn from 'lodash.assignin'
+import cloneDeep from 'lodash/clonedeep'
+import assignIn from 'lodash/assignIn'
 
 /*
  * Module dependencies.

@@ -9,8 +9,8 @@ import {
   PageDefaults, Message
 } from './types';
 
-import cloneDeep from 'lodash.clonedeep'
-import pick from 'lodash.pick'
+import cloneDeep from 'lodash/cloneDeep'
+import pick from 'lodash/pick'
 
 // var _analytics = global.analytics;
 
