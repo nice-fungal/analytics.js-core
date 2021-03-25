@@ -10,7 +10,7 @@ var bindAll = require('bind-all');
 // var cookie = require('./cookie');
 // var debug = require('debug')('analytics:user');
 var inherit = require('inherits');
-// var rawCookie = require('@segment/cookie');
+// var rawCookie = require('@head.js/analytics.js-cookie');
 var uuid = require('uuid/v4');
 var localStorage = require('./store');
 
