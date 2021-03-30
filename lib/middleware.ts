@@ -1,6 +1,6 @@
 'use strict';
 
-var Facade = require('segmentio-facade');
+var Facade = require('@head.js/analytics.js-facade').Facade;
 
 module.exports.SourceMiddlewareChain = function SourceMiddlewareChain() {
   var apply = middlewareChain(this);
