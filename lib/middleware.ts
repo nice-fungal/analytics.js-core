@@ -1,4 +1,6 @@
-import Facade from 'segmentio-facade'
+'use strict';
+
+var Facade = require('@head.js/analytics.js-facade').Facade;
 
 export const SourceMiddlewareChain = function SourceMiddlewareChain() {
   var apply = middlewareChain(this);

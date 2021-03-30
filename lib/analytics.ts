@@ -23,16 +23,16 @@ import url from 'component-url'
 
 // var Alias = require('@lattebank/analytics.js-facade').Alias;
 var Emitter = require('component-emitter');
-var Facade = require('segmentio-facade');
-// var Group = require('segmentio-facade').Group;
-var Identify = require('segmentio-facade').Identify;
+var Facade = require('@head.js/analytics.js-facade').Facade;
+// var Group = require('@head.js/analytics.js-facade').Group;
+var Identify = require('@head.js/analytics.js-facade').Identify;
 var SourceMiddlewareChain = require('./middleware').SourceMiddlewareChain;
 var IntegrationMiddlewareChain = require('./middleware')
   .IntegrationMiddlewareChain;
 var DestinationMiddlewareChain = require('./middleware')
   .DestinationMiddlewareChain;
-var Page = require('segmentio-facade').Page;
-var Track = require('segmentio-facade').Track;
+var Page = require('@head.js/analytics.js-facade').Page;
+var Track = require('@head.js/analytics.js-facade').Track;
 var bindAll = require('bind-all');
 var extend = require('extend');
 var cookie = require('./cookie');
