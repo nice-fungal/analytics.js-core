@@ -11,6 +11,7 @@ import {
 
 import { pageDefaults } from './pageDefaults';
 
+import cloneDeep from 'lodash.clonedeep'
 import pick from 'lodash.pick'
 import url from 'component-url'
 
@@ -33,13 +34,10 @@ var DestinationMiddlewareChain = require('./middleware')
 var Page = require('segmentio-facade').Page;
 var Track = require('segmentio-facade').Track;
 var bindAll = require('bind-all');
-var clone = require('./utils/clone');
 var extend = require('extend');
 var cookie = require('./cookie');
 var metrics = require('./metrics');
 var debug = require('debug');
-var defaults = require('@ndhoule/defaults');
-var each = require('./utils/each');
 var group = require('./group');
 var is = require('is');
 var isMeta = require('@segment/is-meta');
