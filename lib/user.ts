@@ -7,11 +7,11 @@
 import { InitOptions } from './types';
 var Entity = require('./entity');
 var bindAll = require('bind-all');
-var cookie = require('./cookie');
+// var cookie = require('./cookie');
 // var debug = require('debug')('analytics:user');
 var inherit = require('inherits');
-var rawCookie = require('@segment/cookie');
-var uuid = require('uuid');
+// var rawCookie = require('@segment/cookie');
+var uuid = require('uuid/v4');
 var localStorage = require('./store');
 
 /**
@@ -147,7 +147,7 @@ User.prototype.anonymousId = function(anonymousId?: string): string | User {
   // }
 
   // empty
-  anonymousId = uuid.v4();
+  anonymousId = uuid();
   store.set('ajs_anonymous_id', anonymousId);
   this._setAnonymousIdInLocalStorage(anonymousId);
   return store.get('ajs_anonymous_id');

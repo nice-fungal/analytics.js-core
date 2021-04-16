@@ -21,10 +21,10 @@ import url from 'component-url'
  * Module dependencies.
  */
 
-var Alias = require('segmentio-facade').Alias;
+// var Alias = require('@lattebank/analytics.js-facade').Alias;
 var Emitter = require('component-emitter');
 var Facade = require('segmentio-facade');
-var Group = require('segmentio-facade').Group;
+// var Group = require('segmentio-facade').Group;
 var Identify = require('segmentio-facade').Identify;
 var SourceMiddlewareChain = require('./middleware').SourceMiddlewareChain;
 var IntegrationMiddlewareChain = require('./middleware')
@@ -36,17 +36,18 @@ var Track = require('segmentio-facade').Track;
 var bindAll = require('bind-all');
 var extend = require('extend');
 var cookie = require('./cookie');
-var metrics = require('./metrics');
+// var metrics = require('./metrics');
 // var debug = require('debug');
-var group = require('./group');
+// var group = require('./group');
 var is = require('is');
-var isMeta = require('@segment/is-meta');
-var memory = require('./memory');
+// var isMeta = require('@segment/is-meta');
+var keys = require('@ndhoule/keys');
+// var memory = require('./memory');
 var nextTick = require('next-tick');
 var normalize = require('./normalize');
-var on = require('component-event').bind;
-var prevent = require('@segment/prevent-default');
-var url = require('component-url');
+// var on = require('component-event').bind;
+// var prevent = require('@segment/prevent-default');
+// var url = require('component-url');
 var store = require('./store');
 var user = require('./user');
 var type = require('component-type');
@@ -69,11 +70,12 @@ function Analytics() {
   // this.log = debug('analytics.js');
   bindAll(this);
 
-  const self = this;
-  this.on('initialize', function(_, options) {
-    if (options.initialPageview) self.page();
-    self._parseQuery(window.location.search);
-  });
+
+  // const self = this;
+  // this.on('initialize', function(_, options) {
+  //   if (options.initialPageview) self.page();
+  //   self._parseQuery(window.location.search);
+  // });
 }
 
 /**
@@ -201,7 +203,7 @@ Analytics.prototype.init = Analytics.prototype.initialize = function(
 
   // load user now that options are set
   user.load();
-  group.load();
+  // group.load();
 
   // make ready callback
   var readyCallCount = 0;
@@ -362,44 +364,44 @@ Analytics.prototype.user = function(): object {
  * @return {Analytics|Object}
  */
 
-Analytics.prototype.group = function(
-  id: string,
-  traits?: unknown,
-  options?: unknown,
-  fn?: unknown
-): SegmentAnalytics {
-  /* eslint-disable no-unused-expressions, no-sequences */
-  if (!arguments.length) return group;
-  if (is.fn(options)) (fn = options), (options = null);
-  if (is.fn(traits)) (fn = traits), (options = null), (traits = null);
-  if (is.object(id)) (options = traits), (traits = id), (id = group.id());
-  /* eslint-enable no-unused-expressions, no-sequences */
+// Analytics.prototype.group = function(
+//   id: string,
+//   traits?: unknown,
+//   options?: unknown,
+//   fn?: unknown
+// ): SegmentAnalytics {
+//   /* eslint-disable no-unused-expressions, no-sequences */
+//   if (!arguments.length) return group;
+//   if (is.fn(options)) (fn = options), (options = null);
+//   if (is.fn(traits)) (fn = traits), (options = null), (traits = null);
+//   if (is.object(id)) (options = traits), (traits = id), (id = group.id());
+//   /* eslint-enable no-unused-expressions, no-sequences */
 
-  // grab from group again to make sure we're taking from the source
-  group.identify(id, traits);
+//   // grab from group again to make sure we're taking from the source
+//   group.identify(id, traits);
 
-  var msg = this.normalize({
-    options: options,
-    traits: group.traits(),
-    groupId: group.id()
-  });
+//   var msg = this.normalize({
+//     options: options,
+//     traits: group.traits(),
+//     groupId: group.id()
+//   });
 
-  // Add the initialize integrations so the server-side ones can be disabled too
-  // NOTE: We need to merge integrations, not override them with assign
-  // since it is possible to change the initialized integrations at runtime.
-  if (this.options.integrations) {
-    msg.integrations = {
-      ...this.options.integrations,
-      ...msg.integrations
-    }
-  }
+//   // Add the initialize integrations so the server-side ones can be disabled too
+//   // NOTE: We need to merge integrations, not override them with assign
+//   // since it is possible to change the initialized integrations at runtime.
+//   if (this.options.integrations) {
+//     msg.integrations = {
+//       ...this.options.integrations,
+//       ...msg.integrations
+//     }
+//   }
 
-  this._invoke('group', new Group(msg));
+//   this._invoke('group', new Group(msg));
 
-  this.emit('group', id, traits, options);
-  this._callback(fn);
-  return this;
-};
+//   this.emit('group', id, traits, options);
+//   this._callback(fn);
+//   return this;
+// };
 
 /**
  * Track an `event` that a user has triggered with optional `properties`.
@@ -536,44 +538,44 @@ Analytics.prototype.track = function(
  * @return {Analytics}
  */
 
-Analytics.prototype.trackSubmit = Analytics.prototype.trackForm = function(
-  forms: Element | Array<unknown>,
-  event: any,
-  properties?: any
-): SegmentAnalytics {
-  if (!forms) return this;
-  // always arrays, handles jquery
-  if (type(forms) === 'element') forms = [forms];
+// Analytics.prototype.trackSubmit = Analytics.prototype.trackForm = function(
+//   forms: Element | Array<unknown>,
+//   event: any,
+//   properties?: any
+// ): SegmentAnalytics {
+//   if (!forms) return this;
+//   // always arrays, handles jquery
+//   if (type(forms) === 'element') forms = [forms];
 
-  const elements = forms as Array<unknown>
+//   const elements = forms as Array<unknown>
 
-  elements.forEach((el: { submit: () => void }) => {
-    if (type(el) !== 'element')
-      throw new TypeError('Must pass HTMLElement to `analytics.trackForm`.');
-    const handler = (e) => {
-      prevent(e);
+//   elements.forEach((el: { submit: () => void }) => {
+//     if (type(el) !== 'element')
+//       throw new TypeError('Must pass HTMLElement to `analytics.trackForm`.');
+//     const handler = (e) => {
+//       prevent(e);
 
-      const ev = is.fn(event) ? event(el) : event;
-      const props = is.fn(properties) ? properties(el) : properties;
-      this.track(ev, props);
+//       const ev = is.fn(event) ? event(el) : event;
+//       const props = is.fn(properties) ? properties(el) : properties;
+//       this.track(ev, props);
 
-      this._callback(function() {
-        el.submit();
-      });
-    }
+//       self._callback(function() {
+//         el.submit();
+//       });
+//     }
 
-    // Support the events happening through jQuery or Zepto instead of through
-    // the normal DOM API, because `el.submit` doesn't bubble up events...
-    var $ = window.jQuery || window.Zepto;
-    if ($) {
-      $(el).submit(handler);
-    } else {
-      on(el, 'submit', handler);
-    }
-  });
+//     // Support the events happening through jQuery or Zepto instead of through
+//     // the normal DOM API, because `el.submit` doesn't bubble up events...
+//     var $ = window.jQuery || window.Zepto;
+//     if ($) {
+//       $(el).submit(handler);
+//     } else {
+//       on(el, 'submit', handler);
+//     }
+//   }, forms);
 
-  return this;
-};
+//   return this;
+// };
 
 /**
  * Trigger a pageview, labeling the current page with an optional `category`,
@@ -626,12 +628,12 @@ Analytics.prototype.page = function(
   // Mirror user overrides to `options.context.page` (but exclude custom properties)
   // (Any page defaults get applied in `this.normalize` for consistency.)
   // Weird, yeah--moving special props to `context.page` will fix this in the long term.
-  const overrides = pick(properties, Object.keys(defs));
-  if (!is.empty(overrides)) {
-    options = options || {};
-    options.context = options.context || {};
-    options.context.page = overrides;
-  }
+  // const overrides = pick(properties, Object.keys(defs));
+  // if (!is.empty(overrides)) {
+  //   options = options || {};
+  //   options.context = options.context || {};
+  //   options.context.page = overrides;
+  // }
 
   const msg = this.normalize({
     properties: properties,
@@ -679,41 +681,41 @@ Analytics.prototype.page = function(
  * @return {Analytics}
  */
 
-Analytics.prototype.alias = function(
-  to: string,
-  from?: string,
-  options?: unknown,
-  fn?: unknown
-): SegmentAnalytics {
-  // Argument reshuffling.
-  /* eslint-disable no-unused-expressions, no-sequences */
-  if (is.fn(options)) (fn = options), (options = null);
-  if (is.fn(from)) (fn = from), (options = null), (from = null);
-  if (is.object(from)) (options = from), (from = null);
-  /* eslint-enable no-unused-expressions, no-sequences */
+// Analytics.prototype.alias = function(
+//   to: string,
+//   from?: string,
+//   options?: unknown,
+//   fn?: unknown
+// ): SegmentAnalytics {
+//   // Argument reshuffling.
+//   /* eslint-disable no-unused-expressions, no-sequences */
+//   if (is.fn(options)) (fn = options), (options = null);
+//   if (is.fn(from)) (fn = from), (options = null), (from = null);
+//   if (is.object(from)) (options = from), (from = null);
+//   /* eslint-enable no-unused-expressions, no-sequences */
 
-  var msg = this.normalize({
-    options: options,
-    previousId: from,
-    userId: to
-  });
+//   var msg = this.normalize({
+//     options: options,
+//     previousId: from,
+//     userId: to
+//   });
 
-  // Add the initialize integrations so the server-side ones can be disabled too
-  // NOTE: We need to merge integrations, not override them with assign
-  // since it is possible to change the initialized integrations at runtime.
-  if (this.options.integrations) {
-    msg.integrations = {
-      ...this.options.integrations,
-      ...msg.integrations
-    }
-  }
+//   // Add the initialize integrations so the server-side ones can be disabled too
+//   // NOTE: We need to merge integrations, not override them with assign
+//   // since it is possible to change the initialized integrations at runtime.
+//   if (this.options.integrations) {
+//     msg.integrations = {
+//       ...this.options.integrations,
+//       ...msg.integrations
+//     }
+//   }
 
-  this._invoke('alias', new Alias(msg));
+//   this._invoke('alias', new Alias(msg));
 
-  this.emit('alias', to, from, options);
-  this._callback(fn);
-  return this;
-};
+//   this.emit('alias', to, from, options);
+//   this._callback(fn);
+//   return this;
+// };
 
 /**
  * Register a `fn` to be fired when all the analytics services are ready.
@@ -734,9 +736,9 @@ Analytics.prototype.ready = function(fn: Function): SegmentAnalytics {
  * Set the `timeout` (in milliseconds) used for callbacks.
  */
 
-Analytics.prototype.timeout = function(timeout: number) {
-  this._timeout = timeout;
-};
+// Analytics.prototype.timeout = function(timeout: number) {
+//   this._timeout = timeout;
+// };
 
 /**
  * Enable or disable debug.
@@ -761,10 +763,10 @@ Analytics.prototype._options = function(
   options = options || {};
   this.options = options;
   cookie.options(options.cookie);
-  metrics.options(options.metrics);
+  // metrics.options(options.metrics);
   store.options(options.localStorage);
   user.options(options.user);
-  group.options(options.group);
+  // group.options(options.group);
   return this;
 };
 
@@ -929,79 +931,79 @@ Analytics.prototype._invoke = function(
   }
 };
 
-/**
- * Push `args`.
- *
- * @param {Array} args
- * @api private
- */
+// /**
+//  * Push `args`.
+//  *
+//  * @param {Array} args
+//  * @api private
+//  */
 
-Analytics.prototype.push = function(args: any[]) {
-  var method = args.shift();
-  if (!this[method]) return;
-  this[method].apply(this, args);
-};
+// Analytics.prototype.push = function(args: any[]) {
+//   var method = args.shift();
+//   if (!this[method]) return;
+//   this[method].apply(this, args);
+// };
 
-/**
- * Reset group and user traits and id's.
- *
- * @api public
- */
+// /**
+//  * Reset group and user traits and id's.
+//  *
+//  * @api public
+//  */
 
-Analytics.prototype.reset = function() {
-  this.user().logout();
-  this.group().logout();
-};
+// Analytics.prototype.reset = function() {
+//   this.user().logout();
+//   this.group().logout();
+// };
 
-/**
- * Parse the query string for callable methods.
- *
- * @api private
- */
+// /**
+//  * Parse the query string for callable methods.
+//  *
+//  * @api private
+//  */
 
-interface QueryStringParams {
-  [key: string]: string | null;
-}
+// interface QueryStringParams {
+//   [key: string]: string | null;
+// }
 
-Analytics.prototype._parseQuery = function(query: string): SegmentAnalytics {
-  // Parse querystring to an object
-  const parsed = url.parse(query);
-
-  const q = parsed.query.split('&').reduce((acc, str) => {
-    const [k, v] = str.split('=');
-    acc[k] = decodeURI(v).replace('+', ' ');
-    return acc;
-  }, {});
-
-  // Create traits and properties objects, populate from querysting params
-  var traits = pickPrefix('ajs_trait_', q);
-  var props = pickPrefix('ajs_prop_', q);
-  // Trigger based on callable parameters in the URL
-  if (q.ajs_uid) this.identify(q.ajs_uid, traits);
-  if (q.ajs_event) this.track(q.ajs_event, props);
-  if (q.ajs_aid) user.anonymousId(q.ajs_aid);
-  return this;
-
-  /**
-   * Create a shallow copy of an input object containing only the properties
-   * whose keys are specified by a prefix, stripped of that prefix
-   *
-   * @return {Object}
-   * @api private
-   */
-
-  function pickPrefix(prefix: string, object: object) {
-    var length = prefix.length;
-    var sub;
-    return Object.keys(object).reduce(function(acc, key) {
-      if (key.substr(0, length) === prefix) {
-        sub = key.substr(length);
-        acc[sub] = object[key];
-      }
-      return acc;
-    }, {});
-  }
-};
+// Analytics.prototype._parseQuery = function(query: string): SegmentAnalytics {
+//   // Parse querystring to an object
+//   const parsed = url.parse(query);
+//
+//   const q = parsed.query.split('&').reduce((acc, str) => {
+//     const [k, v] = str.split('=');
+//     acc[k] = decodeURI(v).replace('+', ' ');
+//     return acc;
+//   }, {});
+//
+//   // Create traits and properties objects, populate from querysting params
+//   var traits = pickPrefix('ajs_trait_', q);
+//   var props = pickPrefix('ajs_prop_', q);
+//   // Trigger based on callable parameters in the URL
+//   if (q.ajs_uid) this.identify(q.ajs_uid, traits);
+//   if (q.ajs_event) this.track(q.ajs_event, props);
+//   if (q.ajs_aid) user.anonymousId(q.ajs_aid);
+//   return this;
+//
+//   /**
+//    * Create a shallow copy of an input object containing only the properties
+//    * whose keys are specified by a prefix, stripped of that prefix
+//    *
+//    * @return {Object}
+//    * @api private
+//    */
+//
+//   function pickPrefix(prefix: string, object: object) {
+//     var length = prefix.length;
+//     var sub;
+//     return Object.keys(object).reduce(function(acc, key) {
+//       if (key.substr(0, length) === prefix) {
+//         sub = key.substr(length);
+//         acc[sub] = object[key];
+//       }
+//       return acc;
+//     }, {});
+//   }
+// };
 
 /**
  * Normalize the given `msg`.
@@ -1075,7 +1077,8 @@ Analytics.prototype._mergeInitializeAndPlanIntegrations = function(
  */
 
 module.exports = Analytics;
-module.exports.cookie = cookie;
-module.exports.memory = memory;
-module.exports.store = store;
-module.exports.metrics = metrics;
+// module.exports.cookie = cookie;
+// module.exports.memory = memory;
+// module.exports.store = store;
+// module.exports.metrics = metrics;
+module.exports.uuid = require('uuid/v4')
