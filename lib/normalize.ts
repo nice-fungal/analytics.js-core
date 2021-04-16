@@ -1,5 +1,5 @@
 import { Message } from './types';
-import includes from 'lodash.includes'
+import includes from 'lodash/includes'
 
 /**
  * Module Dependencies.

@@ -1,5 +1,5 @@
 import { PageDefaults } from './types';
-import includes from 'lodash.includes'
+import includes from 'lodash/includes'
 import url from 'component-url'
 
 /**

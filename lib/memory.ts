@@ -4,7 +4,7 @@
  * Module Dependencies.
  */
 
-import cloneDeep from 'lodash.clonedeep'
+import cloneDeep from 'lodash/clonedeep'
 
 var bindAll = require('bind-all');
 

@@ -11,8 +11,8 @@ import {
 
 import { pageDefaults } from './pageDefaults';
 
-import cloneDeep from 'lodash.clonedeep'
-import pick from 'lodash.pick'
+import cloneDeep from 'lodash/cloneDeep'
+import pick from 'lodash/pick'
 import url from 'component-url'
 
 // var _analytics = global.analytics;
